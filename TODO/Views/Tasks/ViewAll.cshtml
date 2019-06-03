@@ -1,0 +1,53 @@
+﻿@model TODO.Models.AllTasksViewModel
+
+@{
+    ViewBag.Title = "ViewAll";
+    Layout = null;
+}
+
+@if (Model.AllTasks != null || Model.AllTasks.Count > 0)
+{
+<table class="table">
+    <tr>
+        <th>Task</th>
+        <th>Action</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.AllTasks)
+    {
+    <tr>
+        <td>
+            <a href="#" onclick="Details('@item.Name', '@Url.Content(item.Text.Replace("\r\n", "<br>"))', '@Url.Content(item.ImagePath)')">@item.Name</a>
+
+        </td>
+        <td>
+            <a class="btn btn-primary btn-sm" onclick="Edit('@Url.Action("AddOrEdit", "Tasks", new {id=@item.Id})')"><span class="glyphicon glyphicon-pencil glyphicon-lg"></span></a>
+            <a class="btn btn-danger btn-sm" onclick="Delete('@Url.Action("Delete", "Tasks", new {id=@item.Id})')"><span class="glyphicon glyphicon-trash glyphicon-lg"></span></a>
+        </td>
+    </tr>
+
+    }
+</table>
+}
+
+@if (Model.AllTasks == null || Model.AllTasks.Count == 0)
+{
+    <h2> There is no tasks actually </h2>
+}
+
+@* Modal pupup window *@
+
+<div class="modal fade" id="ModalView">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" calss="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalName"></h4>
+            </div>
+            <div class="modal-body">
+                <textarea readonly id="detailsText" rows="5" cols="80"></textarea>
+                <img src="" style="margin:10px" height="200" widh="200" id="imageView"/>
+            </div>
+        </div>
+    </div>
+</div>
